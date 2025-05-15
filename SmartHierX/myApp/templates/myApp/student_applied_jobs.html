@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Applied Jobs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            background-color: #F8F3D9;
+            font-family: Arial, sans-serif;
+            color: #504B38;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background-color: #EBE5C2;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #504B38;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 8px 16px;
+            background-color: #504B38;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .list-group-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #B9B28A;
+        }
+
+        .list-group-item h5 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .btn-view {
+            margin-top: 8px;
+            padding: 6px 12px;
+            font-size: 14px;
+            background-color: #B9B28A;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .btn-view:hover {
+            background-color: #504B38;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background-color: #FFEB3B;
+            color: #000;
+        }
+
+        .status-accepted {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .status-declined {
+            background-color: #F44336;
+            color: white;
+        }
+
+        .no-jobs {
+            text-align: center;
+            font-style: italic;
+        }
+    </style>
+
+   
+</head>
+<body>
+
+<div class="container">
+    <a href="{% url 'student_dashboard' %}" class="back-btn">← Back to Dashboard</a>
+    <h2>Applied Jobs</h2>
+
+    {% if applications %}
+        <ul class="list-group mt-3">
+            {% for app in applications %}
+            <li class="list-group-item">
+                <h5>{{ app.job.title }} at {{ app.job.company_name }}</h5>
+                <p>Status: 
+                    <span class="status {% if app.status == 'Accepted' %}status-accepted{% elif app.status == 'Declined' %}status-declined{% else %}status-pending{% endif %}">
+                        {{ app.status|default:"Pending" }}
+                    </span>
+                </p>
+                <p>Applied on: {{ app.applied_at|date:"d M Y" }}</p>
+                <a href="{% url 'job_details' app.job.id %}" class="btn-view">View Job</a>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="no-jobs">You haven’t applied for any jobs yet.</p>
+    {% endif %}
+</div>
+<script>
+    if (window.history && window.history.pushState) {
+        window.history.pushState(null, null, location.href);
+        window.onpopstate = function () {
+            location.replace('{% url "student_dashboard" %}');
+        };
+    }
+
+</script>
+</body>
+</html>

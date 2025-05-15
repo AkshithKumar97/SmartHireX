@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Applicants</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/view_applicants.css' %}">
+    <style>
+        .resume-link {
+            display: inline-flex;
+            align-items: center;
+            color: #3674B5;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .resume-link:hover {
+            color: #1a5a9c;
+            text-decoration: underline;
+        }
+        .resume-icon {
+            margin-right: 5px;
+        }
+        .no-resume {
+            color: #6c757d;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2 class="mb-4 text-center text-primary">Applicants for {{ job.title }}</h2>
+    {% if messages %}
+        <div class="alert-container">
+            {% for message in messages %}
+                <div class="alert-box {% if 'success' in message.tags %}success{% else %}error{% endif %}">
+                    <span class="alert-icon">{% if 'success' in message.tags %}✔{% else %}✖{% endif %}</span>
+                    <span class="alert-message">{{ message }}</span>
+                </div>
+            {% endfor %}
+        </div>   
+    {% endif %}
+
+
+
+    {% if applications %}
+        {% for application in applications %}
+        <div class="applicant-card">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <p class="applicant-name">{{ application.student.first_name }} {{ application.student.last_name }}</p>
+                    <p><strong>Email:</strong> {{ application.student.email }}</p>
+                    <p><strong>Applied on:</strong> {{ application.applied_at|date:"F j, Y, g:i a" }}</p>
+                    <p><strong>Status:</strong> 
+                        {% if application.status %}
+                            <span class="badge bg-success badge-status">{{ application.status }}</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark badge-status">Pending</span>
+                        {% endif %}
+                    </p>
+                    <p>
+                        {% if application.resume %}
+                            <a href="{% url 'view_resume' application.id %}" class="resume-link">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-text resume-icon" viewBox="0 0 16 16">
+                                    <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1h-5zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+                                    <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5L9.5 0zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                </svg>
+                                View Resume
+                            </a>
+                        {% else %}
+                            <span class="no-resume">No resume uploaded</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <a href="{% url 'accept_application' application.id %}" class="btn btn-accept me-2">Accept</a>
+                    <a href="{% url 'decline_application' application.id %}" class="btn btn-decline">Decline</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-center text-muted">No applications yet for this job.</p>
+    {% endif %}
+</div>
+<script>
+    setTimeout(() => {
+        document.querySelectorAll('.alert-box').forEach((alert) => {
+            alert.style.opacity = "0";
+            setTimeout(() => alert.style.display = "none", 500);
+        });
+    }, 3000);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

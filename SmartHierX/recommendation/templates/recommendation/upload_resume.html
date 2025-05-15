@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Upload Resume | SmartHireX</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #F8F3D9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .resume-upload-card {
+      background-color: #EBE5C2;
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .resume-upload-card h2 {
+      color: #504B38;
+      font-weight: 700;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+
+    .btn-custom {
+      background-color: #504B38;
+      color: white;
+      border: none;
+    }
+
+    .btn-custom:hover {
+      background-color: #B9B28A;
+      color: #504B38;
+    }
+
+    label {
+      color: #504B38;
+      font-weight: 500;
+    }
+
+    .file-upload-wrapper {
+      position: relative;
+      display: block;
+      width: 100%;
+    }
+
+    .file-upload-btn {
+      background-color: #504B38;
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: center;
+      width: 100%;
+    }
+
+    .file-upload-btn:hover {
+      background-color: #B9B28A;
+      color: #504B38;
+    }
+
+    /* Hide the actual file input */
+    input[type="file"] {
+      display: none;
+    }
+
+    .file-name {
+      margin-top: 10px;
+      font-style: italic;
+      color: #504B38;
+      text-align: center;
+    }
+
+
+
+
+    .alert-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  
+    .alert-box {
+      display: flex;
+      align-items: center;
+      padding: 12px 15px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      opacity: 1;
+      transition: opacity 0.5s ease-in-out;
+      width: 90%;
+      max-width: 350px;
+    }
+  
+    /* Success Message */
+    .alert-box.success {
+      background-color: #d1e7dd;
+      color: #0f5132;
+      border-left: 5px solid #198754;
+    }
+  
+    /* Error Message */
+    .alert-box.error {
+      background-color: #f8d7da;
+      color: #842029;
+      border-left: 5px solid #dc3545;
+    }
+  
+    /* Icon Styling */
+    .alert-icon {
+      font-size: 18px;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  {% if messages %}
+    <div class="alert-container">
+        {% for message in messages %}
+            <div class="alert-box {% if 'success' in message.tags %}success{% else %}error{% endif %}">
+                <span class="alert-icon">{% if 'success' in message.tags %}✔{% else %}✖{% endif %}</span>
+                <span class="alert-message">{{ message }}</span>
+            </div>
+        {% endfor %}
+    </div>
+  {% endif %}
+  {% block content %}
+  <div class="resume-upload-card">
+    <h2>Upload Your Resume</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <label for="id_resume">Select Resume (PDF/DOCX):</label>
+
+      <!-- Custom file upload button -->
+      <div class="file-upload-wrapper mb-3">
+        <label for="id_resume" class="file-upload-btn">
+          Choose File
+        </label>
+        {{ form.resume }}
+        <span id="file-name" class="file-name">No file chosen</span>
+      </div>
+
+      <div class="d-grid mt-4">
+        <button type="submit" class="btn btn-custom btn-lg">
+          Upload & Get Recommendations
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    setTimeout(() => {
+      document.querySelectorAll('.alert-box').forEach((alert) => {
+          alert.style.opacity = "0";
+          setTimeout(() => alert.style.display = "none", 500);
+      });
+    }, 3000);
+
+    const fileInput = document.getElementById('id_resume');
+    const fileNameDisplay = document.getElementById('file-name');
+
+    fileInput.addEventListener('change', function () {
+      if (fileInput.files.length > 0) {
+        fileNameDisplay.textContent = fileInput.files[0].name;
+      } else {
+        fileNameDisplay.textContent = 'No file chosen';
+      }
+    });
+  </script>
+  {% endblock %}
+</body>
+</html>

@@ -1,0 +1,82 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
+
+html,body{
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+
+
+body {
+    background-color: #D1F8EF;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1B4965;
+}
+
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    position: fixed;
+    background-color: #3674B5;
+    padding: 1.5rem;
+}
+
+.sidebar h2 {
+    color: white;
+    margin-bottom: 2rem;
+}
+
+.sidebar a {
+    color: white;
+    display: block;
+    margin: 1rem 0;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.sidebar a:hover {
+    text-decoration: underline;
+}
+
+.content {
+    margin-left: 240px;
+    padding: 2rem;
+}
+
+.page-title {
+    margin-bottom: 2rem;
+}
+
+.job-card {
+    background-color: #A1E3F9;
+    border: 1px solid #578FCA;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.job-card h5 {
+    margin-bottom: 0.5rem;
+}
+
+.btn-view {
+    background-color: #3674B5;
+    color: white;
+}
+
+.btn-remove {
+    background-color: #578FCA;
+    color: white;
+}
+
+.btn-view:hover,
+.btn-remove:hover {
+    opacity: 0.9;
+}

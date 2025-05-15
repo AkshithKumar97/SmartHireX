@@ -1,0 +1,82 @@
+Name: Jane Smith
+Location: [Choose your location]
+
+Objective
+Highly skilled and dedicated full-stack web developer with a proven track record of designing, developing, and optimizing web applications. Seeking to contribute technical expertise in frontend and backend development, utilizing advanced frameworks and technologies to create seamless, high-performing websites and applications.
+
+Experience
+Full-Stack Web Developer
+GlobalTech Solutions – Kigali
+January 2024 – Present
+
+Developed and maintained both front-end and back-end components for large-scale, high-traffic web applications.
+
+Utilized React, Angular, and Node.js for building dynamic user interfaces and scalable server-side logic.
+
+Integrated MongoDB and SQL databases to ensure seamless data handling and retrieval.
+
+Led the migration of legacy systems to modern web technologies, improving performance and scalability by over 30%.
+
+Acted as a mentor to junior developers, leading code reviews and assisting in optimizing workflows.
+
+Senior Front-End Web Developer
+Tech Innovations Ltd. – Bucharest
+June 2021 – December 2023
+
+Spearheaded the design and development of user interfaces for various e-commerce platforms, improving conversion rates by 25%.
+
+Collaborated with cross-functional teams, including designers and backend developers, to create user-centric, responsive websites.
+
+Implemented responsive web design principles using HTML5, CSS3, and JavaScript to ensure compatibility across devices.
+
+Utilized React.js and Vue.js for creating interactive, high-performance user experiences.
+
+Optimized page load speed, reducing latency by 20% through efficient code and image optimization techniques.
+
+Web Developer (Intern)
+Creative Labs – Belmopan
+June 2020 – May 2021
+
+Assisted in the development of web applications and websites, focusing on frontend technologies such as HTML5, CSS3, and JavaScript.
+
+Collaborated with senior developers to integrate APIs and implement user authentication features.
+
+Contributed to the creation of custom UI components and front-end layouts using Bootstrap and jQuery.
+
+Education
+MCA (Master of Computer Applications) – National University of Technology
+Graduated: 2023
+
+B.Tech (Bachelor of Technology in Computer Science) – Elite Institute of Technology
+Graduated: 2020
+
+Skills
+Front-End Development: HTML5, CSS3, JavaScript, React.js, Angular, Vue.js, Bootstrap
+
+Back-End Development: Node.js, Express, Python (Django, Flask), RESTful APIs, GraphQL
+
+Databases: MongoDB, SQL (MySQL, PostgreSQL), Firebase
+
+E-commerce Development: Shopping Cart Integration, Payment Gateway Integration, UX/UI Design
+
+Tools & Frameworks: Git, Docker, Webpack, NGINX, Jenkins, AWS, Firebase
+
+Performance Optimization: Code Splitting, Lazy Loading, Image Optimization, Caching
+
+Collaboration & Communication: Agile Methodology, Scrum, Code Reviews, Team Leadership, Documentation
+
+Certifications
+Certified Full-Stack Web Developer – XYZ Academy
+
+Advanced Web Design and Development – DesignTech Institute
+
+UI/UX Masterclass – Creative Labs
+
+React.js Advanced Concepts – Udemy
+
+Projects
+E-commerce Web App: Developed a full-stack e-commerce platform using React, Node.js, and MongoDB, which successfully handled over 50,000 transactions per month.
+
+Personal Portfolio Website: Designed and developed a personal portfolio site to showcase web development projects, utilizing HTML5, CSS3, JavaScript, and React.js.
+
+API Management System: Created an API management system that allows developers to create, test, and manage APIs, integrated with MongoDB for data storage.

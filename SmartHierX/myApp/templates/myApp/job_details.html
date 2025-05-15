@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Details - SmartHireX</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #F5F7FA;
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            margin-top: 40px;
+        }
+        .job-card {
+            background: #FFFFFF;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        .job-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2C3E50;
+        }
+        .job-details {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .btn-primary {
+            background-color: #3498DB;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #2980B9;
+        }
+        .btn-back {
+            background-color: #BDC3C7;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background 0.3s ease;
+            margin-bottom: 15px;
+        }
+        .btn-back:hover {
+            background-color: #95A5A6;
+        }
+
+        /* Custom Alert Styles */
+        .custom-alert-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+          
+        .custom-alert {
+            display: inline-block;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            margin: 10px auto;
+            max-width: 500px;
+            text-align: center;
+            animation: fadeInUp 0.4s ease-out;
+        }
+          
+        .alert-error-custom {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+          
+        .alert-warning-custom {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .alert-success-custom {
+            background-color: #d4edda;
+            color: #155724;
+        }
+          
+        @keyframes fadeInUp {
+            from {opacity: 0; transform: translateY(10px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    <div class="container">
+        <a href="{% url 'job_listings' %}" class="btn btn-back">← Back to Job Listings</a>
+        <div class="job-card">
+            <h2 class="job-title">{{ job.title }}</h2>
+            <p class="text-muted">Posted by: {{ job.recruiter.name }} | Location: {{ job.location }}</p>
+            <hr>
+            <div class="job-details">
+                <p><strong>Job Type:</strong> {{ job.job_type }}</p>
+                <p><strong>Salary:</strong> {{ job.salary }}</p>
+                <p><strong>Experience Required:</strong> {{ job.experience }} years</p>
+                <p><strong>Skills:</strong> {{ job.skills }}</p>
+                <p><strong>Description:</strong> {{ job.description }}</p>
+                <p><strong>Educational Qualification:</strong> {{ job.qualification }}</p>
+                <p><strong>Skills:</strong> {{ job.skills }}</p>
+            </div>
+
+            {% if applied %}
+                {% if status == 'Accepted' %}
+                    <div class="alert alert-success">
+                        ✅ Your application was <strong>Accepted</strong>!
+                    </div>
+                    <a href="#" class="btn btn-primary">Message Recruiter</a>
+
+                {% elif status == 'Declined' %}
+                    <div class="alert alert-danger">
+                        ❌ Your application was <strong>Declined</strong>.
+                    </div>
+
+                {% else %}
+                    <div class="alert alert-warning">
+                        🕒 Your application is <strong>Pending</strong>.
+                    </div>
+                {% endif %}
+            {% else %}
+                <button class="btn btn-success open-resume-btn" data-job-id="{{ job.id }}">Apply for this job</button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Resume Upload Modal -->
+    <div class="modal fade" id="resumeUploadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Resume</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="resumeForm" enctype="multipart/form-data">
+                        <input type="file" name="resume" id="resumeInput" class="form-control mb-3" required>
+                        <input type="hidden" id="hiddenJobId">
+                        <button type="submit" class="btn btn-success w-100">Submit & Apply</button>
+                    </form>    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        let selectedJobId = null;
+
+        function showCustomAlert(message, type = 'success') {
+            const alertContainer = document.createElement('div');
+            alertContainer.classList.add('custom-alert-container');
+        
+            const alertDiv = document.createElement('div');
+            alertDiv.classList.add('alert', 'custom-alert', 'alert-dismissible', 'fade', 'show');
+        
+            if (type === 'success') {
+                alertDiv.classList.add('alert-success-custom');
+            } else if (type === 'error') {
+                alertDiv.classList.add('alert-error-custom');
+            } else {
+                alertDiv.classList.add('alert-warning-custom');
+            }
+        
+            alertDiv.innerHTML = `${message}`;
+            alertContainer.appendChild(alertDiv);
+            document.body.appendChild(alertContainer);
+        
+            setTimeout(() => {
+                alertDiv.classList.remove('show');
+                alertDiv.classList.add('fade');
+                setTimeout(() => alertContainer.remove(), 500);
+            }, 3000);
+        }
+
+        function openResumeModal(jobId) {
+            selectedJobId = jobId;
+            document.getElementById('hiddenJobId').value = jobId;
+            const modal = new bootstrap.Modal(document.getElementById('resumeUploadModal'));
+            modal.show();
+        }
+        
+        document.getElementById('resumeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let formData = new FormData(this);
+          
+            fetch(`/upload-resume/${selectedJobId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                },
+                body: formData,
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showCustomAlert(data.success, 'success');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    showCustomAlert(data.error || "Failed to apply.", 'error');
+                }
+            })
+            .catch(error => {
+                showCustomAlert("An error occurred while applying.", 'error');
+            });
+        });
+
+        document.querySelectorAll('.open-resume-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const jobId = btn.getAttribute('data-job-id');
+                openResumeModal(jobId);
+            });
+        });
+    </script>
+</body>
+</html>

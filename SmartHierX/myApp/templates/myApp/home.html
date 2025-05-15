@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartHireX</title>
+</head>
+<body>
+    <body>
+        <div class="overlay"></div>
+        <div class="container">
+            <h1 class="mb-4">Welcome to SmartHireX</h1>
+            <p class="mb-4">Choose your role to continue</p>
+            <div class="d-flex justify-content-center gap-4">
+                <button data-url="{% url 'student_login' %}" class="btn btn-custom btn-student">As Student</button>
+                <button data-url="{% url 'recruiter_login' %}" class="btn btn-custom btn-recruiter">As Recruiter</button>
+            </div>
+        </div>
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+
+    <script>
+        // Add click handlers for buttons
+        document.querySelectorAll('button[data-url]').forEach(button => {
+            button.addEventListener('click', () => {
+                window.location.href = button.dataset.url;
+            });
+        });
+
+        // Prevent browser back button from going to previous pages after logout
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+            window.history.pushState(null, null, window.location.href);
+        };
+        
+        // Check if user has just logged out
+        document.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('loggedOut') === 'true') {
+                // Clear the flag
+                sessionStorage.removeItem('loggedOut');
+                
+                // Prevent navigation to login pages
+                const loginLinks = document.querySelectorAll('a[href*="login"]');
+                loginLinks.forEach(link => {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        alert('Please log in again to access this page.');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
