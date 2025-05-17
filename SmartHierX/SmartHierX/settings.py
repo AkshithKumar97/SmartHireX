@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!=gum0a$-4h*klb1!25#t!_#+s=y5wqoej%d5ble0ff+@j9hrm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app', 'SmartHireX.com']
 
 
 # Application definition
@@ -53,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'myApp.middleware.PreventBackMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = 'SmartHierX.urls'
